@@ -1,5 +1,7 @@
 from classes.game import Person, bcolors
 from classes.magic import Spell
+from classes.inventory import Item
+
 
 # Create Black magic spells
 fire = Spell("Fire", 10, 100, "black")
@@ -12,9 +14,23 @@ quake = Spell("Quake", 14, 120, "black")
 cure = Spell("Cure", 12, 120, "white")
 cura = Spell("Cura", 18, 200, "white")
 
+
+# Create Items
+
+potion = Item("Potion", "potion", "Heals 50 HP", 50)
+hipotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
+superpotion = Item("super Potion", "potion", "Heals 500 HP", 500)
+elixer = Item("Elixer", "elixer", "Fully restores HP/MP of one party member", 9999)
+hielixer = Item("MegaElixer", "elixer", "Fully restores party's HP/MP", 9999)
+
+grenade = Item("Grenade", "attack", "Deals 500 damage", 500)
+
+player_magic = [fire, blizzard, meteor, cure, cura]
+player_items = [potion, hipotion, superpotion, elixer, hielixer, grenade]
+
 # Instantiate People
-player = Person(460, 65, 60, 34, [fire, blizzard, meteor, cure, cura])
-enemy = Person(1200, 65, 45, 25, [])
+player = Person(460, 65, 60, 34, player_magic, player_items)
+enemy = Person(1200, 65, 45, 25, [], [])
 
 running = True
 i = 0
@@ -35,6 +51,9 @@ while running:
         player.choose_magic()
         magic_choice = int(input("Choose Magic: ")) - 1
 
+        if magic_choice == -1:
+            continue
+
         spell = player.magic[magic_choice]
         magic_dmg = spell.generate_dmg()
 
@@ -52,6 +71,18 @@ while running:
         elif spell.type == "black":
             enemy.take_damage(magic_dmg)
             print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "damage.\n" + bcolors.ENDC)
+    elif index == 2:
+        player.choose_item()
+        item_choice = int(input("Choose Item: ")) - 1
+
+        if item_choice == -1:
+            continue
+
+        item = player.items[item_choice]
+
+        if item.type == "potion":
+            player.heal(item.prop)
+            print(bcolors.OKGREEN + "\n" + item.name + " heals for", str(item.prop), "HP" + bcolors.ENDC)
 
     enemy_choice = 1
 
