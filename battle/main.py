@@ -2,6 +2,9 @@ from classes.game import Person, bcolors
 from classes.magic import Spell
 from classes.inventory import Item
 
+print("\n\n")
+print("NAME                       HP                                MP")
+print("                  460/460       65/65 ______________ s|")
 
 # Create Black magic spells
 fire = Spell("Fire", 10, 100, "black")
@@ -115,4 +118,3 @@ while running:
         running = False
     elif player.get_hp() == 0:
         print(bcolors.FAIL + "Your enemy has defeated you!" + bcolors.ENDC)
-
